@@ -13,7 +13,7 @@ def parse_gls(email):
     """Parse GLS tracking numbers."""
     tracking_numbers = []
 
-    matches = re.findall(r'idc=(.*?)"', email[EMAIL_ATTR_BODY])
+    matches = re.findall(r'https?://www\.gls-italy\.com/tracktraceuser/[A-Z]{2}/\d+', email[EMAIL_ATTR_BODY])
     for tracking_number in matches:
         if tracking_number not in tracking_numbers:
             tracking_numbers.append(tracking_number)
