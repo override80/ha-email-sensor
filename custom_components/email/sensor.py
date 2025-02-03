@@ -63,6 +63,7 @@ from .parsers.sylvane import ATTR_SYLVANE, EMAIL_DOMAIN_SYLVANE, parse_sylvane
 from .parsers.adafruit import ATTR_ADAFRUIT, EMAIL_DOMAIN_ADAFRUIT, parse_adafruit
 from .parsers.thriftbooks import ATTR_THRIFT_BOOKS, EMAIL_DOMAIN_THRIFT_BOOKS, parse_thrift_books
 from .parsers.lowes import ATTR_LOWES, EMAIL_DOMAIN_LOWES, parse_lowes
+from .parsers.gls import ATTR_GLS, EMAIL_DOMAIN_GLS, parse_gls
 
 from .parsers.generic import ATTR_GENERIC, EMAIL_DOMAIN_GENERIC, parse_generic
 
@@ -114,7 +115,7 @@ parsers = [
     (ATTR_ADAFRUIT, EMAIL_DOMAIN_ADAFRUIT, parse_adafruit),
     (ATTR_THRIFT_BOOKS, EMAIL_DOMAIN_THRIFT_BOOKS, parse_thrift_books),
     (ATTR_LOWES, EMAIL_DOMAIN_LOWES, parse_lowes),
-    
+    (ATTR_GLS, EMAIL_DOMAIN_GLS, parse_gls),
     (ATTR_GENERIC, EMAIL_DOMAIN_GENERIC, parse_generic),
 ]
 
@@ -139,6 +140,7 @@ TRACKING_NUMBER_URLS = {
   'fedex': "https://www.fedex.com/apps/fedextrack/?tracknumbers=",
   'dhl': 'https://www.logistics.dhl/us-en/home/tracking/tracking-parcel.html?submit=1&tracking-id=',
   'swiss_post': 'https://www.swisspost.ch/track?formattedParcelCodes=',
+  'gls': 'https://www.gls-italy.com/tracktraceuser/',
   'unknown': 'https://www.google.com/search?q=',
 }
 
@@ -205,7 +207,9 @@ def find_carrier(tracking_number, email_domain):
     elif email_domain == EMAIL_DOMAIN_SWISS_POST:
         link = TRACKING_NUMBER_URLS["swiss_post"]
         carrier = "Swiss Post"
-    
+    elif email_domain == EMAIL_DOMAIN_GLS:
+        link = TRACKING_NUMBER_URLS["gls"]
+        carrier = "GLS"    
     # regex tracking number
     elif re.search(usps_regex, tracking_number) != None:
         link = TRACKING_NUMBER_URLS["usps"]
